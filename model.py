@@ -446,7 +446,7 @@ def build_season_dataset(season_end_year: int) -> pd.DataFrame:
 # Build panel dataset across many seasons
 # ---------------------------------------------------------------------------
 
-def build_panel_dataset(season_end_years: List[int]) -> pd.DataFrame:
+def build_panel_dataset(season_end_years: List[int], require_targets: bool = True) -> pd.DataFrame:
     dfs = []
     for year in season_end_years:
         print(f"Building dataset for season_end_year={year}...")
@@ -459,12 +459,13 @@ def build_panel_dataset(season_end_years: List[int]) -> pd.DataFrame:
     # and require a valid target. For future seasons (e.g. 2026), skip this
     # so we don't wipe out all players during forecasting.
     if "season_end_year" in panel.columns and panel["season_end_year"].max() <= 2025:
-        # 65-game eligibility filter
-        if "G" in panel.columns:
+        # 65-game eligibility filter (only if require_targets is True, 
+        # because for historical lookbacks we might want to see everyone)
+        if require_targets and "G" in panel.columns:
             panel = panel[panel["G"] >= 65].copy()
 
-        # Basic sanity: drop players with missing target
-        if "Voting_Share" in panel.columns:
+        # Basic sanity: drop players with missing target (only if required)
+        if require_targets and "Voting_Share" in panel.columns:
             panel = panel[panel["Voting_Share"].notna()].copy()
 
     return panel

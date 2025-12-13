@@ -25,8 +25,13 @@ def get_leaderboard_data(year: int):
             df = leaderboards[year]
             # Convert to dict
             # We want to keep specific columns and format them
-            # Replace NaN with None/null for JSON
+            # Replace Infinity with large numbers or None, and NaN with None
+            # Using numpy for robust infinity checking
+            import numpy as np
+            df = df.replace([np.inf, -np.inf], None)
+            df = df.replace([pd.NA, pd.NaT], None)
             df = df.where(pd.notnull(df), None)
+            
             return df.to_dict(orient="records")
         else:
             return []
