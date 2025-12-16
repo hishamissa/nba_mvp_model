@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .api_utils import get_leaderboard_data
+from api_utils import get_leaderboard_data
 
 app = FastAPI(title="NBA MVP Forecaster API")
 
