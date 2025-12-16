@@ -28,7 +28,7 @@ except ImportError:  # very old sklearn fallback
 
 PROJECT_ROOT = os.path.dirname(__file__)   
 RAW_DATA_DIR = os.path.join(PROJECT_ROOT, "data")    
-MODEL_DIR = "models"
+MODEL_DIR = os.path.join(PROJECT_ROOT, "models")
 os.makedirs(MODEL_DIR, exist_ok=True)
 
 TRAIN_YEARS = list(range(2016, 2024)) 
