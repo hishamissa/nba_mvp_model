@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 
-const API_URL = '/api';
+const API_URL = import.meta.env.PROD 
+  ? 'https://nba-mvp-model.onrender.com' 
+  : '/api';
 
 
 export const fetchLeaderboard = async (year) => {
